@@ -26,4 +26,5 @@ Route::post('products',[ProductController::class,'store']);
 Route::put('/products/{id}',[ProductController::class,'update']);
 Route::delete('/products/{id}',[ProductController::class,'destroy']);
 
-Route::get('/Register',[AuthController::class,'register']);
+Route::get('/register',[AuthController::class,'showRegister']);
+Route::post('/register',[AuthController::class,'register']);
