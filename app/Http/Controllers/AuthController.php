@@ -18,14 +18,14 @@ class AuthController extends Controller
     function register(Request $request)
     {
         $request->validate([
-            'name'=>'required|max:255',
-            'email'=>'required|email|unique:users',
-            'password'=>'required|min:6|confirmed'
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6|confirmed'
         ]);
         $user = User::create([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'password'=> Hash::make($request->password)
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
         ]);
 
         Auth::login($user);
@@ -33,4 +33,35 @@ class AuthController extends Controller
         return redirect('/products');
     }
 
+    function showLogin()
+    {
+        return view('auth.login');
+    }
+
+    function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials  )){
+            $request->session()->regenerate();
+            return redirect('/products');
+        }
+
+        return back()->withErrors([
+            'email'=>"The provided credentials do not match our records."
+        ])->onlyInput('email');
+    }
+
+    function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/products');
+    }
 }
