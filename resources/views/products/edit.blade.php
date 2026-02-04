@@ -23,20 +23,34 @@
                     <form action="/products/{{ $product->id }}" method="POST">
                         @csrf
                         @method('PUT')
-                        
+
                         <div class="mb-3">
                             <label for="product_name" class="form-label">Product Name</label>
-                            <input type="text" class="form-control" name="name" value="{{ old('name', $product->name) }}">
+                            <input type="text" class="form-control" name="name"
+                                value="{{ old('name', $product->name) }}">
                         </div>
 
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
                             <textarea class="form-control" name="description" rows="4">{{ old('description', $product->description) }}</textarea>
                         </div>
+                        <div class="mb-3">
+                            <label for="category_id" class="form-label">Categories</label>
+                            <select name="category_id" class="form-control">
+                                <option value="">-- Select Category --</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}"
+                                        {{ old('category_id',$product->category_id) == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <div class="mb-3">
                             <label for="price" class="form-label">Price</label>
-                            <input type="number" step="0.01" class="form-control" name="price" value="{{ old('price', $product->price) }}">
+                            <input type="number" step="0.01" class="form-control" name="price"
+                                value="{{ old('price', $product->price) }}">
                         </div>
 
                         <div class="d-flex gap-2">
