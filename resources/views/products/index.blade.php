@@ -11,9 +11,17 @@
         <div class="alert alert-info d-flex justify-content-between align-items-center">
             <span>
                 Showing products in:
-                <strong>{{App\Models\Category::find(request('category'))->name ?? "Unknown Category"}}</strong>
+                <strong>{{ App\Models\Category::find(request('category'))->name ?? 'Unknown Category' }}</strong>
             </span>
             <a href="/products" class="btn btn-sm btn-secondary">Show All Products</a>
+        </div>
+    @elseif (request('tag'))
+        <div class="alert alert-success d-flex justify-content-between align-items-center">
+            <span>
+                Showing products with tag:
+                <strong>{{ App\Models\Tag::find(request('tag'))->name ?? 'Unknown' }}</strong>
+            </span>
+            <a href="/products" class="btn btn-sm btn-secondary">Show All</a>
         </div>
     @endif
     <div class="card">
@@ -26,6 +34,7 @@
                         <th>Description</th>
                         <th>Price</th>
                         <th>Categories</th>
+                        <th>Tags</th>
                         @auth
                             <th>Actions</th>
                         @endauth
@@ -47,6 +56,14 @@
                                 @else
                                     <span class="badge bg-secondary">No Category</span>
                                 @endif
+                            </td>
+                            <td>
+                                @forelse ($product->tags as $tag)
+                                    <a href="/products?tag={{ $tag->id }}"
+                                        class="badge bg-info text-decoration-none me-1">{{ $tag->name }}</a>
+                                @empty
+                                    <span class="text-muted">No tags</span>
+                                @endforelse
                             </td>
                             <td>
                                 @auth

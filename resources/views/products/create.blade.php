@@ -45,7 +45,21 @@
                                 @endforeach
                             </select>
                         </div>
-
+                        <div class="mb-3">
+                            <label class="form-label">Tags</label>
+                            <div class="border rounded p-3">
+                                @foreach ($tags as $tag)
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" name="tags[]"
+                                            value="{{ $tag->id }}" id="tag{{ $tag->id }}"
+                                            {{ is_array(old('tags')) && in_array($tag->id, old('tags')) ? 'checked' : '' }}>
+                                        <label for="tag{{ $tag->id }}" class="form-check-label">
+                                            {{ $tag->name }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
                         <div class="mb-3">
                             <label for="price" class="form-label">Price</label>
                             <input type="number" step="0.01" class="form-control" name="price"
