@@ -26,19 +26,22 @@ class ProductRequest extends FormRequest
             "description" => 'required|max:255',
             "price" => "required|numeric|min:0",
             "category_id" => "nullable|exists:categories,id",
-            "tags"=>"nullable|array",
-            "tag.*"=>"exists:tags,id"
+            "tags" => "nullable|array",
+            "tag.*" => "exists:tags,id",
+            "image" => "nullable|image|mimes:png,jpg,jpeg,gif|max:2048"
         ];
     }
 
     public function messages()
     {
         return [
-            "price.min" => "Price cannot be negative",
             'name.required' => 'Please enter a product name',
             'price.required' => 'Price is required',
             'price.numeric' => 'Price must be a number',
-            'price.min' => 'Price cannot be negative'
+            'price.min' => 'Price cannot be negative',
+            'image.image' => 'Please upload a valid image file',
+            'image.mimes' => 'Image must be: JPEG, PNG, JPG, or GIF',
+            'image.max' => 'Image size must not exceed 2MB'
         ];
     }
 }

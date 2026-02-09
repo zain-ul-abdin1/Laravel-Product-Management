@@ -20,7 +20,7 @@
                         </div>
                     @endif
 
-                    <form action="/products/{{ $product->id }}" method="POST">
+                    <form action="/products/{{ $product->id }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -54,9 +54,9 @@
                                         <input type="checkbox" name="tags[]" id="tag{{ $tag->id }}"
                                             class="form-check-input" value="{{ $tag->id }}"
                                             {{ (is_array(old('tags')) ? in_array($tag->id, old('tags')) : $product->tags->contains($tag->id)) ? 'checked' : '' }}>
-                                            <label for="tag{{$tag->id}}" class="form-check-label">
-                                                {{$tag->name}}
-                                            </label>
+                                        <label for="tag{{ $tag->id }}" class="form-check-label">
+                                            {{ $tag->name }}
+                                        </label>
                                     </div>
                                 @endforeach
                             </div>
@@ -67,7 +67,18 @@
                             <input type="number" step="0.01" class="form-control" name="price"
                                 value="{{ old('price', $product->price) }}">
                         </div>
-
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Product Image</label>
+                            @if ($product->image)
+                                <div class="mb-2">
+                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                                        class="img-thumbnail" style="max-width:200px">
+                                    <p class="text-muted small">Current image</p>
+                                </div>
+                            @endif
+                            <input type="file" class="form-control" name="image" accept="image/*">
+                            <small>Leave empty to keep current image. Accepted: JPG, PNG, GIF (Max: 2MB)</small>
+                        </div>
                         <div class="d-flex gap-2">
                             <button type="submit" class="btn btn-primary">Update Product</button>
                             <a href="/products" class="btn btn-secondary">Cancel</a>

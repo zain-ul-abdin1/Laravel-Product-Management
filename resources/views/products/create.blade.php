@@ -20,7 +20,7 @@
                         </div>
                     @endif
 
-                    <form action="/products" method="POST">
+                    <form action="/products" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="mb-3">
@@ -64,6 +64,11 @@
                             <label for="price" class="form-label">Price</label>
                             <input type="number" step="0.01" class="form-control" name="price"
                                 value="{{ old('price') }}">
+                        </div>
+                        <div class="mb-3">
+                        <label for="image" class="form-label">Product Image</label>
+                        <input type="file" class="form-control" name="image" accept="image/*">  
+                        <small class="text-muted">Accepted: JPG, PNG, GIF, (Max: 2MB)</small>  
                         </div>
 
                         <div class="d-flex gap-2">
